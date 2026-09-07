@@ -1,5 +1,5 @@
 # GTA IV Drive-By Pre-Aim
-A GTA IV ASI plugin that allows the player to pre-aim during vehicle drive-bys by holding RMB before firing. This makes it similar to GTA V.\
+A GTA IV ASI plugin that allows the player to pre-aim during vehicle drive-bys by holding RMB before firing. This makes it similar to GTA V.
 
 # Behavior
 

@@ -5,11 +5,13 @@ For GTAIV The Complete Edition Only.
 
 # Behavior
 
-Vanilla:
+Vanilla:\
+\
 RMB + LMB → drive-by
 
-Modified:
-RMB → prepare/aim
+Modified:\
+\
+RMB → prepare/aim\
 LMB → fire
 
 # How to install

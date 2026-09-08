@@ -13,4 +13,4 @@ RMB → prepare/aim\
 LMB → fire
 
 # How to install
-Grab [latest]() archive and move GTAIVDriveByPreAim.IV.asi in the root or "plugins" folder.
+Grab [latest](https://github.com/emmancuyugan/iv-drive-by-pre-aim/releases) archive and move GTAIVDriveByPreAim.IV.asi in the root or "plugins" folder.

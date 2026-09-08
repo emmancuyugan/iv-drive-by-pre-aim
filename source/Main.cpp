@@ -1,46 +1,39 @@
-#include <plugin.h>
-
-#include "game_IV/CPed.h"
+#include "plugin.h"
+#include "CPad.h"
+#include "safetyhook/safetyhook.hpp"
 
 using namespace plugin;
 
-volatile uint32_t g_value38 = 0;
-volatile uint32_t g_value3C = 0;
-volatile uint32_t g_value40 = 0;
-volatile uint32_t g_value44 = 0;
-volatile uint32_t g_value48 = 0;
-volatile uint32_t g_value4C = 0;
+class GTAIVDriveByPreAim {
+public:
+    static inline SafetyHookInline shPlayerWantsToDoDriveby;
 
-struct Main
-{
-    Main()
-    {
-        Events::gameProcessEvent += [] {
-            gInstance.OnGameProcess();
-            };
+    static char __cdecl PlayerWantsToDoDriveby(int a1) {
+
+        char result =
+            shPlayerWantsToDoDriveby.unsafe_ccall<char>(a1);
+        
+        if (CPad::IsMouseButtonPressed(2))
+            result = 1;
+
+        return result;
     }
 
-    void OnGameProcess()
-    {
-        CPed* player = FindPlayerPed(0);
+    GTAIVDriveByPreAim() {
+        static auto pattern =
+            plugin::GetGlobalAddress(
+                plugin::pattern::Get(
+                    "51 57 8B 7C 24 ? 80 BF ? ? ? ? ? 75",
+                    0
+                )
+            );
 
-        if (!player)
-            return;
-
-        if (!player->m_pVehicle)
-            return;
-
-        if (!player->m_pPedIntelligence)
-            return;
-
-        uint8_t* intelligence =
-            reinterpret_cast<uint8_t*>(player->m_pPedIntelligence);
-
-        g_value38 = *reinterpret_cast<uint32_t*>(intelligence + 0x38);
-        g_value3C = *reinterpret_cast<uint32_t*>(intelligence + 0x3C);
-        g_value40 = *reinterpret_cast<uint32_t*>(intelligence + 0x40);
-        g_value44 = *reinterpret_cast<uint32_t*>(intelligence + 0x44);
-        g_value48 = *reinterpret_cast<uint32_t*>(intelligence + 0x48);
-        g_value4C = *reinterpret_cast<uint32_t*>(intelligence + 0x4C);
+        shPlayerWantsToDoDriveby =
+            safetyhook::create_inline(
+                pattern,
+                PlayerWantsToDoDriveby
+            );
     }
-} gInstance;
+};
+
+GTAIVDriveByPreAim gtaIVDriveByPreAim;
